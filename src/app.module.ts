@@ -10,6 +10,10 @@ import { CreateUserUseCase } from './application/user-use-case/create/create-use
 
 import { UserSchema, UserSchemaFactory } from './domain/entitties/user.schema';
 import { UserService } from './domain/services/user.service';
+import { GenerateJwtService } from './domain/services/jwt/generate-jwt.service';
+import { LoginUseCase } from './application/login-use-case/login';
+import { AuthController } from './infraestructure/api/auth/auth.controller';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
     imports: [
@@ -28,13 +32,27 @@ import { UserService } from './domain/services/user.service';
         MongooseModule.forFeature([
             { name: UserSchema.name, schema: UserSchemaFactory },
         ]),
+
+        JwtModule.registerAsync({
+            imports: [ConfigModule],
+            useFactory: (configService: ConfigService) => ({
+                secret: configService.get<string>('JWT_SECRET_KEY'),
+                signOptions: { expiresIn: '24h' },
+            }),
+            inject: [ConfigService],
+        }),
     ],
-    controllers: [UserController],
+    controllers: [UserController, AuthController],
     providers: [
         UserService,
+        GenerateJwtService,
         {
             provide: 'CreateUserInterface',
             useClass: CreateUserUseCase,
+        },
+        {
+            provide: 'LoginInterface',
+            useClass: LoginUseCase,
         },
     ],
 })
