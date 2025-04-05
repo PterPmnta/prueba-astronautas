@@ -1,11 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchema, UserSchemaFactory } from './domain/entitties/user.schema';
 
 import * as dotenv from 'dotenv';
-
 dotenv.config();
+
+import { UserController } from './infraestructure/api/user/user.controller';
+import { CreateUserUseCase } from './application/user-use-case/create/create-user';
+
+import { UserSchema, UserSchemaFactory } from './domain/entitties/user.schema';
+import { UserService } from './domain/services/user.service';
 
 @Module({
     imports: [
@@ -25,7 +29,13 @@ dotenv.config();
             { name: UserSchema.name, schema: UserSchemaFactory },
         ]),
     ],
-    controllers: [],
-    providers: [],
+    controllers: [UserController],
+    providers: [
+        UserService,
+        {
+            provide: 'CreateUserInterface',
+            useClass: CreateUserUseCase,
+        },
+    ],
 })
 export class AppModule {}
