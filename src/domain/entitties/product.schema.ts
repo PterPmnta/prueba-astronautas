@@ -11,7 +11,11 @@ export class ProductSchema {
     @Prop({ required: true })
     price: number;
 
-    @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User', required: true })
+    @Prop({
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'UserSchema',
+        required: true,
+    })
     userId: MongooseSchema.Types.ObjectId;
 }
 

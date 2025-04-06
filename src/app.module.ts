@@ -22,6 +22,7 @@ import {
 import { JwtStrategy } from './domain/strategies/jwt.strategy';
 import { ProductController } from './infraestructure/api/product/product.controller';
 import { CreateProductUseCase } from './application/product-use-case/create/create-product';
+import { GetProductByUserIdUseCase } from './application/product-use-case/get/get-product';
 
 @Module({
     imports: [
@@ -67,6 +68,10 @@ import { CreateProductUseCase } from './application/product-use-case/create/crea
         {
             provide: 'CreateProductInterface',
             useClass: CreateProductUseCase,
+        },
+        {
+            provide: 'GetProductByUserIdInterface',
+            useClass: GetProductByUserIdUseCase,
         },
     ],
 })

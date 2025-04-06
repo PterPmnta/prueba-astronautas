@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { CreateProductDto } from './create-product.dto';
 import { CreateProductInterface } from './create-product.interface';
 import { ProductSchema } from '../../../domain/entitties/product.schema';
-import { CreateProductResultDto } from '../../../infraestructure/api/product/create-product-result.dto';
+import { CreateProductResultDto } from '../../../infraestructure/api/product/create/create-product-result.dto';
 import { UserSchema } from '../../../domain/entitties/user.schema';
 
 export class CreateProductUseCase implements CreateProductInterface {
@@ -38,7 +38,6 @@ export class CreateProductUseCase implements CreateProductInterface {
                 userId: product.userId.toString(),
             };
         } catch (error) {
-            console.log(error);
             throw new Error('Error creating product');
         }
     }
