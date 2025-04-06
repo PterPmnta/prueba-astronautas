@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 
 import { GetProductByUserIdInterface } from './get-product.interface';
 import { ProductSchema } from '../../../domain/entitties/product.schema';
+import { GetProductResultDto } from '../../../infraestructure/api/product/get/get-product-result.dto';
 
 export class GetProductByUserIdUseCase implements GetProductByUserIdInterface {
     constructor(
@@ -10,7 +11,7 @@ export class GetProductByUserIdUseCase implements GetProductByUserIdInterface {
         private readonly productModel: Model<ProductSchema>,
     ) {}
 
-    async execute(userId: string): Promise<any> {
+    async execute(userId: string): Promise<GetProductResultDto[]> {
         try {
             const products = await this.productModel
                 .find({ userId })
@@ -22,7 +23,20 @@ export class GetProductByUserIdUseCase implements GetProductByUserIdInterface {
                 );
             }
 
-            return products;
+            return products.map((product) => {
+                const user = product.userId as any;
+
+                return {
+                    id: product._id.toString(),
+                    name: product.name,
+                    price: product.price,
+                    user: {
+                        id: user._id.toString(),
+                        name: user.name,
+                        email: user.email,
+                    },
+                };
+            });
         } catch (error) {
             console.error(error);
             throw new Error('Error getting products by user id.');
