@@ -1,19 +1,27 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { JwtModule } from '@nestjs/jwt';
 
 import * as dotenv from 'dotenv';
 dotenv.config();
 
 import { UserController } from './infraestructure/api/user/user.controller';
+import { AuthController } from './infraestructure/api/auth/auth.controller';
+
+import { LoginUseCase } from './application/login-use-case/login';
 import { CreateUserUseCase } from './application/user-use-case/create/create-user';
 
 import { UserSchema, UserSchemaFactory } from './domain/entitties/user.schema';
 import { UserService } from './domain/services/user.service';
 import { GenerateJwtService } from './domain/services/jwt/generate-jwt.service';
-import { LoginUseCase } from './application/login-use-case/login';
-import { AuthController } from './infraestructure/api/auth/auth.controller';
-import { JwtModule } from '@nestjs/jwt';
+import {
+    ProductSchema,
+    ProductSchemaFactory,
+} from './domain/entitties/product.schema';
+import { JwtStrategy } from './domain/strategies/jwt.strategy';
+import { ProductController } from './infraestructure/api/product/product.controller';
+import { CreateProductUseCase } from './application/product-use-case/create/create-product';
 
 @Module({
     imports: [
@@ -31,6 +39,7 @@ import { JwtModule } from '@nestjs/jwt';
         }),
         MongooseModule.forFeature([
             { name: UserSchema.name, schema: UserSchemaFactory },
+            { name: ProductSchema.name, schema: ProductSchemaFactory },
         ]),
 
         JwtModule.registerAsync({
@@ -42,10 +51,11 @@ import { JwtModule } from '@nestjs/jwt';
             inject: [ConfigService],
         }),
     ],
-    controllers: [UserController, AuthController],
+    controllers: [UserController, AuthController, ProductController],
     providers: [
         UserService,
         GenerateJwtService,
+        JwtStrategy,
         {
             provide: 'CreateUserInterface',
             useClass: CreateUserUseCase,
@@ -53,6 +63,10 @@ import { JwtModule } from '@nestjs/jwt';
         {
             provide: 'LoginInterface',
             useClass: LoginUseCase,
+        },
+        {
+            provide: 'CreateProductInterface',
+            useClass: CreateProductUseCase,
         },
     ],
 })

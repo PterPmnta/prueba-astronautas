@@ -39,7 +39,6 @@ export class LoginUseCase implements LoginInterface {
 
             const token = await this.generateJwtService.generateToken({
                 id: user._id.toString(),
-                email: user.email,
             });
 
             return {
