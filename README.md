@@ -25,4 +25,6 @@ Para visualizar mis datos alojados en la DB de Mongo uso `Table Plus`
 
 **Nota**: Hay un fichero llamado **Astronauta.postman_collection.json**, el cual es la coleccion de los metedos a las API correspondientes. Tambien puede hacer uso de estas, importandolas a la herrmienta de **Postman**
 
+- Para poder ver la configuracion de **Swagger** una vez la aplicacion este inicializada, se recomienda ingresar a esta ruta `http://localhost:3000/api#/`
+
 ### A probar la aplicacion!!!
