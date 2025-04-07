@@ -38,7 +38,6 @@ export class GetProductByUserIdUseCase implements GetProductByUserIdInterface {
                 };
             });
         } catch (error) {
-            console.error(error);
             throw new Error('Error getting products by user id.');
         }
     }

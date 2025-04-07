@@ -30,7 +30,6 @@ export class CreateUserUseCase implements CreateUserInterface {
                 email: user.email,
             };
         } catch (error) {
-            console.log(error);
             throw new Error('Error creating user');
         }
     }
