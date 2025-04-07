@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { CreateUserUseCase } from '../../../src/application/user-use-case/create/create-user';
-import { UserService } from '../../../src/domain/services/user.service';
-import { CreateUserDto } from '../../../src/application/user-use-case/create/create-user.dto';
-import { CreateUserResultDto } from '../../../src/infraestructure/api/user/create-user-result.dto';
-import { UserSchema } from '../../../src/domain/entitties/user.schema';
+import { CreateUserUseCase } from '../../../../src/application/user-use-case/create/create-user';
+import { UserService } from '../../../../src/domain/services/user.service';
+import { CreateUserDto } from '../../../../src/application/user-use-case/create/create-user.dto';
+import { CreateUserResultDto } from '../../../../src/infraestructure/api/user/create-user-result.dto';
+import { UserSchema } from '../../../../src/domain/entitties/user.schema';
 
 describe('CreateUserUseCase', () => {
     let createUserUseCase: CreateUserUseCase;
