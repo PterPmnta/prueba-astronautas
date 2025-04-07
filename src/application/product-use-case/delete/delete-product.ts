@@ -15,23 +15,25 @@ export class DeleteProductUseCase implements DeleteProductInterface {
     ) {}
 
     async execute(id: string, userId: string): Promise<DeleteProductResultDto> {
+        let product: ProductSchema | null;
+
         try {
-            const product = await this.productModel.findOneAndDelete({
+            product = await this.productModel.findOneAndDelete({
                 _id: id,
                 userId,
             });
-
-            if (!product) {
-                throw new NotFoundException(
-                    'Product not found or user not authorized to delete',
-                );
-            }
-
-            return {
-                message: 'Product deleted successfully',
-            };
         } catch (error) {
             throw new InternalServerErrorException(error.message);
         }
+
+        if (!product) {
+            throw new NotFoundException(
+                'Product not found or user not authorized to delete',
+            );
+        }
+
+        return {
+            message: 'Product deleted successfully',
+        };
     }
 }
