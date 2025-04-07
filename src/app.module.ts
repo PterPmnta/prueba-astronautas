@@ -24,6 +24,7 @@ import { ProductController } from './infraestructure/api/product/product.control
 import { CreateProductUseCase } from './application/product-use-case/create/create-product';
 import { GetProductByUserIdUseCase } from './application/product-use-case/get/get-product';
 import { UpdateProductUseCase } from './application/product-use-case/update/update-product';
+import { DeleteProductUseCase } from './application/product-use-case/delete/delete-product';
 
 @Module({
     imports: [
@@ -77,6 +78,10 @@ import { UpdateProductUseCase } from './application/product-use-case/update/upda
         {
             provide: 'UpdateProductInterface',
             useClass: UpdateProductUseCase,
+        },
+        {
+            provide: 'DeleteProductInterface',
+            useClass: DeleteProductUseCase,
         },
     ],
 })

@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     Inject,
     Param,
@@ -20,6 +21,7 @@ import { CreateProductInterface } from '../../../application/product-use-case/cr
 import { GetProductByUserIdInterface } from '../../../application/product-use-case/get/get-product.interface';
 import { UpdateProductInterface } from '../../../application/product-use-case/update/update-product.interface';
 import { UpdateProductDto } from '../../../application/product-use-case/update/update-product.dto';
+import { DeleteProductInterface } from '../../../application/product-use-case/delete/delete-product.interface';
 
 @ApiTags('Product')
 @Controller('product')
@@ -32,6 +34,8 @@ export class ProductController {
         private readonly getProductByUserIdUseCase: GetProductByUserIdInterface,
         @Inject('UpdateProductInterface')
         private readonly updateProductUseCase: UpdateProductInterface,
+        @Inject('DeleteProductInterface')
+        private readonly deleteProductUseCase: DeleteProductInterface,
     ) {}
 
     @Post()
@@ -54,5 +58,10 @@ export class ProductController {
         @CurrentUser() user,
     ) {
         return this.updateProductUseCase.execute(id, updateProductDto, user.id);
+    }
+
+    @Delete(':id')
+    async deleteProduct(@Param('id') id: string, @CurrentUser() user) {
+        return this.deleteProductUseCase.execute(id, user.id);
     }
 }
