@@ -9,7 +9,7 @@ import {
     Post,
     UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from '../../../domain/guards/jwt-auth.guard';
 import { CurrentUser } from '../../../domain/decorators/current-user.decorator';
@@ -24,6 +24,7 @@ import { UpdateProductDto } from '../../../application/product-use-case/update/u
 import { DeleteProductInterface } from '../../../application/product-use-case/delete/delete-product.interface';
 
 @ApiTags('Product')
+@ApiBearerAuth('jwt')
 @Controller('product')
 @UseGuards(JwtAuthGuard)
 export class ProductController {
