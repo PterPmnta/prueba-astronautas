@@ -38,6 +38,12 @@ export class GetProductByUserIdUseCase implements GetProductByUserIdInterface {
                 };
             });
         } catch (error) {
+            if (
+                error.message ===
+                'The user do not have Products registered by this id.'
+            ) {
+                throw error;
+            }
             throw new Error('Error getting products by user id.');
         }
     }
