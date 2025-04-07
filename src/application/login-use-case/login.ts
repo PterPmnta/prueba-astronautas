@@ -47,6 +47,10 @@ export class LoginUseCase implements LoginInterface {
                 token: token,
             };
         } catch (error) {
+            if (error instanceof UnauthorizedException) {
+                throw error;
+            }
+
             throw new Error(error.message);
         }
     }
