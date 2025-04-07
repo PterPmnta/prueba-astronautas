@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+    db:
+        container_name: prueba_astronauta
+        image: mongo:6
+        restart: always
+        ports:
+            - 27017:27017
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+            MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+            MONGODB_DATABASE: ${DB_NAME}
+        # command: ['--auth']
+        volumes:
+            - mongo-data:/data/db
+        networks:
+            - app-network
+
+    # api:
+    #   build:
+    #     context: .
+    #     dockerfile: Dockerfile
+    #   ports:
+    #     - 3000:3000
+    #   environment:
+    #     - PORT=${PORT}
+    #     - MONGO_URI=${MONGO_URI}
+    #     - DB_USER=${DB_USER}
+    #     - DB_PASSWORD=${DB_PASSWORD}
+    #     - DB_NAME=${DB_NAME}
+    #     - DB_PORT=${DB_PORT}
+    #     - DB_HOST=${DB_HOST}
+    #   # volumes:
+    #   #     - .:app
+    #   depends_on:
+    #     - db
+    #   networks:
+    #     - app-network
+    #   hostname: crypto-local
+    #   container_name: api_crypto
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    mongo-data:
